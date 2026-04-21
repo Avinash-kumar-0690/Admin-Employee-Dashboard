@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
 import type { activitiesType, LeaveType, TaskType, UserType } from "./dashboard.types";
@@ -26,19 +26,15 @@ const TaskSection = ({ data, user }: TaskSetionType) => {
     const handleActiveStatus = (s: string) => {
         setActiveStatus(s);
     };
-
-    let activeTasks;
+const activeTasks = useMemo(() => {
     if (user?.role === "admin") {
-        activeTasks = data?.totalAdminTasks?.filter(
-            (e: any) => e.status === activeStatus
-        );
+        return data?.totalAdminTasks?.filter((e: any) => e.status === activeStatus) ?? [];
     }
     if (user?.role === "employee") {
-        activeTasks = data?.EmpTasks?.filter(
-            (e: any) => e.status === activeStatus
-        );
+        return data?.EmpTasks?.filter((e: any) => e.status === activeStatus) ?? [];
     }
-    return []
+    return []; // The "Else" case that satisfies TypeScript
+}, [data, user, activeStatus]);
 
     return (
         <>
