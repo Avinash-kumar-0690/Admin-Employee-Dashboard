@@ -1,5 +1,10 @@
+import type { TaskType } from "./dashboard.types";
 
-const TaskChart = ({ tasks }) => {
+
+interface TaskChartType {
+  tasks:TaskType[]
+}
+const TaskChart = ({ tasks }:TaskChartType) => {
   const pending = tasks?.filter(t => t.status === "pending").length;
   const inProgress = tasks?.filter(t => t.status === "in-progress").length;
   const completed = tasks?.filter(t => t.status === "completed").length;

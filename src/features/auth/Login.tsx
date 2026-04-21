@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const { data: users, isLoading } = useQuery<UserType[]>({
+  const { data: users } = useQuery<UserType[]>({
     queryKey: ["users"],
     queryFn: getUsers,
   });
