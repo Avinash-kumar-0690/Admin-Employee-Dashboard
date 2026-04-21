@@ -2,7 +2,6 @@ import type { AdminViewProps } from "./AdminView";
 import type {
   LeaveType,
   TaskType,
-  transformDashboardDataType,
   UserType,
 } from "../dashboard.types";
 

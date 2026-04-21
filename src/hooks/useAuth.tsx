@@ -1,12 +1,12 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import type { User } from "../features/users/users.types";
 import { getLocalStorage, removeLocalStorage } from "../utilities/useLocalStorage";
+import type { UserType } from "../features/dashboard/dashboard.types";
 
 
 interface AuthContextType {
-    user: User | null;
+    user: UserType | null;
     logOut : () => void;
-    login: (user:User) => void;
+    login: (user:UserType) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextType>({
 })
 
 const AuthProvider = ({children}:{children:React.ReactNode}) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserType | null>(null);
 
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const AuthProvider = ({children}:{children:React.ReactNode}) => {
         setUser(null)
     };
 
-    const login = (user: User) => {
+    const login = (user: UserType) => {
   localStorage.setItem("authUser", JSON.stringify(user));
   setUser(user);
 };

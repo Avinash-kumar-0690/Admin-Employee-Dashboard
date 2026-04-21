@@ -2,7 +2,7 @@ interface Input {
   type: string;
   name?: string;
   id?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
   isFocused?:boolean;
 }

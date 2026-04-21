@@ -4,6 +4,7 @@ import type { DashboardDataType, UserType } from "../dashboard.types";
 export interface MainLayoutContext {
   allDashboardData?: DashboardDataType;
   user?: UserType;
+  data?:DashboardDataType | undefined;
 }
 
 const AdminLayout = () => {

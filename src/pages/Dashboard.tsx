@@ -1,5 +1,4 @@
-import AdminView from '../features/dashboard/admin-view/AdminView';
-import EmployeeView from '../features/dashboard/employee-view/EmployeeView';
+
 import { getDashboardData } from '../features/dashboard/dahsboard.api';
 import type { DashboardDataType } from '../features/dashboard/dashboard.types';
 import { useAuth } from '../hooks/useAuth';

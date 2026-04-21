@@ -1,5 +1,4 @@
 
-
 const TaskChart = ({ tasks }) => {
   const pending = tasks?.filter(t => t.status === "pending").length;
   const inProgress = tasks?.filter(t => t.status === "in-progress").length;

@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import type { DashboardDataType, UserType } from "../dashboard.types"
+import type {  DashboardDataType,  UserType } from "../dashboard.types"
 import { empDashboardData } from "./employeeView.api";
 import { useQuery } from "@tanstack/react-query";
 import { getEventsData } from "../dahsboard.api";
@@ -10,8 +10,9 @@ import TaskChart from "../TaskChart";
 
 
 
+
 export interface EmployeeViewProps {
-  allDashboardData?: DashboardDataType;
+  allDashboardData?: DashboardDataType | undefined;
   user?: UserType;
 
 }
@@ -20,27 +21,14 @@ const EmployeeView = () => {
   const employeeDashboardData = empDashboardData({ allDashboardData, user });
 
   const tasks = employeeDashboardData?.EmpTasks
-  const data = [
-    {
-      name: "Pending",
-      value: tasks?.filter((t) => t.status === "pending").length,
-    },
-    {
-      name: "In Progress",
-      value: tasks?.filter((t) => t.status === "in-progress").length,
-    },
-    {
-      name: "Completed",
-      value: tasks?.filter((t) => t.status === "completed").length,
-    },
-  ];
-
+ 
 
   const events = useQuery({
     queryKey: ["events"],
     queryFn: () => getEventsData(),
   });
 
+  
   return (
     <>
       <section className="bg-[#0f172a] min-h-screen  text-gray-200">
@@ -75,10 +63,10 @@ const EmployeeView = () => {
                       {/* COMPACT DATE BOX */}
                       <div className="flex flex-col items-center justify-center min-w-11.25 py-1 bg-[#1e293b] rounded border border-gray-700">
                         <span className="text-[10px] font-bold text-blue-400 uppercase">
-                          {new Date(e.date).toLocaleString('en-US', { month: 'short' })}
+                          {new Date(e.date ? e.date : "").toLocaleString('en-US', { month: 'short' })}
                         </span>
                         <span className="text-lg font-bold text-white">
-                          {new Date(e.date).getDate()}
+                          {new Date(e.date ? e.date : "").getDate()}
                         </span>
                       </div>
 

@@ -1,11 +1,24 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import type { MainLayoutContext } from "../EmployeeLayout";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../services/BaseApi";
 
+// 1. Define a complete interface for the data you are actually sending
+interface LeavePayload {
+  id: number;
+  userId?: string | number;
+  teamId?: string | number;
+  type: string;
+  fromDate: string;
+  toDate: string;
+  reason: string;
+  status: string;
+  appliedAt: string;
+}
+
 export default function ApplyLeave() {
-  const {user} = useOutletContext<MainLayoutContext>()
+  const { user } = useOutletContext<MainLayoutContext>();
 
   const [form, setForm] = useState({
     type: "",
@@ -13,28 +26,35 @@ export default function ApplyLeave() {
     toDate: "",
     reason: "",
   });
-  const queryClient = useQueryClient()
 
-  const handleApplyLeave = (newLeave) => {
-    const data = api.post("/leaves", newLeave )
-    return data
-  }
+  // 2. Fix: The parameter here must match what you pass to .mutate()
+  const handleApplyLeave = async (newLeave: LeavePayload) => {
+    const response = await api.post("/leaves", newLeave);
+    return response.data;
+  };
 
   const applyLeave = useMutation({
-    mutationFn:handleApplyLeave,
+    mutationFn: handleApplyLeave,
     onSuccess: () => {
-      alert("Your applicataion is submitted Successfully!")
+      alert("Your application is submitted Successfully!");
       setForm({ type: "", fromDate: "", toDate: "", reason: "" });
-
-      
+    },
+    onError: (error) => {
+      alert("Failed to submit leave request.");
+      console.error(error);
     }
-  })
-  const handleChange = (e) => {
+  });
+
+  // 3. Fix: Added HTMLTextAreaElement to the union so the textarea doesn't error
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  // 4. Fix: Changed type to React.FormEvent<HTMLFormElement>
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!form.type || !form.fromDate || !form.toDate || !form.reason) {
@@ -47,7 +67,8 @@ export default function ApplyLeave() {
       return;
     }
 
-    const newLeave = {
+    // 5. Logical consistency: Ensure this object matches LeavePayload
+    const newLeave: LeavePayload = {
       id: Date.now(),
       userId: user?.id,
       teamId: user?.teamId,
@@ -58,17 +79,16 @@ export default function ApplyLeave() {
       status: "pending",
       appliedAt: new Date().toISOString().split("T")[0],
     };
-    applyLeave.mutate(newLeave)
+
+    applyLeave.mutate(newLeave);
   };
 
   return (
-    <div className=" bg-[#0f172a] flex justify-center px-4">
+    <div className="bg-[#0f172a] flex justify-center px-4">
       <div className="w-full max-w-xl bg-[#111827] border border-gray-800 rounded-2xl shadow-xl p-6">
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-white">Apply Leave</h2>
-          <p className="text-gray-400 text-sm">
-            Submit your leave request here
-          </p>
+          <p className="text-gray-400 text-sm">Submit your leave request here</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -125,9 +145,10 @@ export default function ApplyLeave() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-2 rounded-lg font-medium"
+            disabled={applyLeave.isPending}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 transition text-white py-2 rounded-lg font-medium"
           >
-            Submit Request
+            {applyLeave.isPending ? "Submitting..." : "Submit Request"}
           </button>
         </form>
       </div>

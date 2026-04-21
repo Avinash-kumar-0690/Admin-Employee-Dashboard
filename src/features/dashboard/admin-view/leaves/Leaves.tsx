@@ -182,7 +182,7 @@
 // };
 
 // export default Leaves;
-import { useState, memo } from "react";
+import React, { useState, memo,  } from "react";
 
 /* ---------------- Fake Users ---------------- */
 const users: Record<string, string> = {
@@ -198,7 +198,8 @@ function formatTime(date: string) {
 }
 
 /* ---------------- Main Component ---------------- */
-export default function TaskUpdatesDemo() {
+export default function TaskUpdatesDemo({viewType}:{viewType:string}): React.JSX.Element {
+  console.log(viewType)
   const [task, setTask] = useState({
     id: "1005",
     title: "Implement Task Filter",

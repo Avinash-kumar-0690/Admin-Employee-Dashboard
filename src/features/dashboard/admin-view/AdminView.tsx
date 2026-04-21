@@ -10,13 +10,14 @@ import { Outlet, useOutletContext } from "react-router-dom";
 import TaskChart from "../TaskChart";
 import { useMemo } from "react";
 
-interface adminStatData {
+ export interface adminStatData {
   totalEmployees?: UserType[] | undefined;
   totalAdminTasks?: TaskType[] | undefined;
   pendingTasks?: TaskType[] | undefined;
   leaveRequests?: LeaveType[] | undefined;
   activeTasks?: TaskType[] | undefined;
   filterActivities?: activitiesType[];
+  EmpTasks?:TaskType[] | undefined;
 }
 export interface AdminViewProps {
   allDashboardData?: DashboardDataType;
@@ -74,10 +75,10 @@ const AdminView = () => {
                   {/* COMPACT DATE BOX */}
                   <div className="flex flex-col items-center justify-center min-w-11.25 py-1 bg-[#1e293b] rounded border border-gray-700">
                     <span className="text-[10px] font-bold text-blue-400 uppercase">
-                      {new Date(e.date).toLocaleString('en-US', { month: 'short' })}
+                      {new Date(e.date ? e.date: "").toLocaleString('en-US', { month: 'short' })}
                     </span>
                     <span className="text-lg font-bold text-white">
-                      {new Date(e.date).getDate()}
+                      {new Date(e.date ? e.date: "").getDate()}
                     </span>
                   </div>
 
