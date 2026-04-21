@@ -2,7 +2,7 @@ import type { TaskType } from "./dashboard.types";
 
 
 interface TaskChartType {
-  tasks:TaskType[]
+  tasks:TaskType[] ;
 }
 const TaskChart = ({ tasks }:TaskChartType) => {
   const pending = tasks?.filter(t => t.status === "pending").length;

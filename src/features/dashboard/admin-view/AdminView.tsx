@@ -106,7 +106,9 @@ const AdminView = () => {
           </h2>
           
         <div className="h-48 w-full bg-[#0f172a] rounded-lg p-3 border border-gray-800">
-     <TaskChart tasks={tasks} />
+          {tasks? 
+     <TaskChart tasks={tasks} />: null
+    }
     </div>
                         
         </div>
