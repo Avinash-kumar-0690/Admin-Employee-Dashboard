@@ -1,8 +1,9 @@
 import { FaUsers, FaClipboardList, FaClock, FaUmbrellaBeach } from "react-icons/fa";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
+import type { transformDashboardDataType } from "./dashboard.types";
 
-const iconMap = {
+export const iconMap = {
   employees: FaUsers,
   tasks: FaClipboardList,
   attendance: FaClock,
@@ -11,7 +12,14 @@ const iconMap = {
   addtasks:FaClipboardList,
 };
 
-const StateCard = ({ state }) => {
+interface stateCardType {
+  state:transformDashboardDataType
+}
+
+
+
+const StateCard = ( {state }:stateCardType) => {
+ 
   if (!state) return null;
 
   const navigate = useNavigate();

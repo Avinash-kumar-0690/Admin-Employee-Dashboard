@@ -1,6 +1,7 @@
 
 import { api } from "../../services/BaseApi";
 import type { activitiesType,  DashboardDataType, eventType, LeaveType, TaskType, transformDashboardDataType, UserType } from "./dashboard.types";
+import type { StateListType } from "./Statelist";
 
 export const getUsersData = async (): Promise<UserType[]> => {
     const res = await api.get("/users");
@@ -45,9 +46,9 @@ export const getDashboardData = async (): Promise<DashboardDataType> => {
 
 
 
-export const transformDashboardData = (data, user): transformDashboardDataType[] => {
+export const transformDashboardData = ({data, user}:StateListType): transformDashboardDataType[] | undefined => {
+    console.log(data, user)
     if (user?.role === "admin") {
-
         return [
             {
                 title: "Total Employees",

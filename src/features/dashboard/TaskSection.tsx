@@ -1,8 +1,24 @@
 import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
+import type { activitiesType, LeaveType, TaskType, UserType } from "./dashboard.types";
 
-const TaskSection = (data) => {
+
+interface ActiveUserTaskType {
+    filterActivities?: activitiesType[];
+    EmpTasks?: TaskType[] | undefined | [];
+    totalEmployees?: UserType[] | undefined;
+    EmpLeaves?: LeaveType[] | undefined;
+    totalAdminTasks?: TaskType[] | undefined;
+}
+
+interface TaskSetionType {
+    data: ActiveUserTaskType | undefined;
+    user: UserType | undefined;
+}
+
+const TaskSection = ({ data, user }: TaskSetionType) => {
+    console.log(data)
     const [activeStatus, setActiveStatus] = useState<string>("pending");
 
     const statuses = ["pending", "in-progress", "completed"];
@@ -12,16 +28,17 @@ const TaskSection = (data) => {
     };
 
     let activeTasks;
-    if (data?.user?.role === "admin") {
-        activeTasks = data?.data?.totalAdminTasks?.filter(
+    if (user?.role === "admin") {
+        activeTasks = data?.totalAdminTasks?.filter(
             (e: any) => e.status === activeStatus
         );
     }
-    if (data?.user?.role === "employee") {
-        activeTasks = data.data.EmpTasks?.filter(
+    if (user?.role === "employee") {
+        activeTasks = data?.EmpTasks?.filter(
             (e: any) => e.status === activeStatus
         );
     }
+    return []
 
     return (
         <>
@@ -30,6 +47,7 @@ const TaskSection = (data) => {
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold">Tasks</h2>
                     <span className="text-sm text-gray-400">
+
                         {activeTasks?.length || 0} items
                     </span>
                 </div>
@@ -69,18 +87,20 @@ const TaskSection = (data) => {
                         </thead>
                         <tbody>
                             {activeTasks?.length ? (
-                                activeTasks.map((t) => (
+                                activeTasks.map((t: TaskType) => (
                                     <tr
+
                                         key={t.id}
                                         className="border-b border-gray-800 hover:bg-[#334155] transition"
                                     >
                                         <td className="py-2 font-medium">
                                             {t.title}
+
                                         </td>
 
                                         {/* ✅ FIXED DESCRIPTION */}
                                         <td
-                                            className="text-gray-400 max-w-[250px] line-clamp-2"
+                                            className="text-gray-400 max-w-62.5 line-clamp-2"
                                             title={t.description}
                                         >
                                             {t.description}

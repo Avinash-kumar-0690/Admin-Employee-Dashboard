@@ -3,6 +3,7 @@ import type { AdminViewProps } from "../AdminView";
 import { useMutation,  useQueryClient } from "@tanstack/react-query";
 import Input from "../../../../components/ui/Input";
 import { createTask } from "./AddTask.api";
+import type { TaskType } from "../../dashboard.types";
 
 //  API CAL
 
@@ -34,11 +35,11 @@ const queryClient = useQueryClient()
 
     const formData = new FormData(e.currentTarget);
 
-    const taskData = {
+    const taskData :TaskType = {
       title: String(formData.get("title")),
       description: String(formData.get("description")),
       priority: String(formData.get("priority")),
-      assignedTo: String(formData.get("assignedTo")),
+      assignedTo: Number(formData.get("assignedTo")),
       dueDate: String(formData.get("dueDate")),
       tags: String(formData.get("tags")),
       status: String(formData.get("status")),

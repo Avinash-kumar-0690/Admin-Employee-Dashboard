@@ -11,11 +11,11 @@ function EmployeeLeavePage() {
   // ✅ filter + sort (latest first)
   const userLeaves = useMemo(() => {
     const leave = leavesData?.filter((leave) => Number(leave.userId) === Number(user?.id))
-      .sort((a, b) => new Date(b.fromDate) - new Date(a.fromDate));
+      .sort((a, b) => +new Date(b.fromDate) - +new Date(a.fromDate));
       return leave
   }, []);
 
-  const getStatusStyle = (status) => {
+  const getStatusStyle = (status:string | undefined) => {
     if (status === "approved") return { color: "green" };
     if (status === "rejected") return { color: "red" };
     return { color: "orange" };

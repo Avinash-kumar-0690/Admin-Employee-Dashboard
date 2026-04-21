@@ -1,7 +1,7 @@
-import type { User } from "../features/users/users.types";
+import type { UserType } from "../features/dashboard/dashboard.types";
 
 
-export const  setLocalStorage = (key:string, value:User) => {
+export const  setLocalStorage = (key:string, value:UserType) => {
     localStorage.setItem(key, JSON.stringify(value))
 }
 

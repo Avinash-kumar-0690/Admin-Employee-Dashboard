@@ -1,3 +1,5 @@
+import type { iconMap } from "./StateCard";
+
 export interface UserType {
   id?: number;
   name?: string;
@@ -16,10 +18,10 @@ export interface TaskType {
     title?:string;
     description?:string;
     assignedTo?:number;
+    priority?:"low" | "medium" | "high" | string;
     createdBy?:number;
-    status?:"pending" | "in-progress" | "completed";
-    priority?:"low" | "medium" | "high";
-    dueDate?:"string";
+    status?:"pending" | "in-progress" | "completed" | string;
+    dueDate?:string;
     createdAt?:string;
     completedAt?:string | null
     teamId:number;
@@ -38,6 +40,8 @@ export interface LeaveType {
     createdAt?:string;
     teamId:number;
     assignedTo:number | string;
+    fromDate:string;
+    toDate:string;
 }
 
 
@@ -80,8 +84,16 @@ export interface DashboardDataType {
 
 
 export interface transformDashboardDataType {
-    title:string;
-    value:number | string;
-    type:string;
-    action:string;
+    title: string;
+  value: number | string;
+  type: keyof typeof iconMap; 
+  action: string
+}
+
+export interface getTransformDataType {
+    totalEmployees?:UserType[] | undefined;
+    leaveRequests?:LeaveType[] | undefined;
+    EmpLeaves?:LeaveType[] | undefined;
+      filterActivities?: activitiesType[] | undefined;
+      EmpTasks?:TaskType[] | undefined;
 }
