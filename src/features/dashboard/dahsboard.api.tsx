@@ -54,7 +54,7 @@ export const transformDashboardData = ({data, user}:StateListType): transformDas
                 title: "Total Employees",
                 value: data?.totalEmployees?.length ?? 0,
                 type: "employees",
-                action: "/admin/totalEmp",
+                action: "/dashboard/admin/totalEmp",
             },
             {
                 title: "My Leave",
@@ -62,19 +62,19 @@ export const transformDashboardData = ({data, user}:StateListType): transformDas
                     data?.leaveRequests?.filter((l:any) => Number(l.userId) === Number(user.id)).length ??
                     0,
                 type: "leaves",
-                action: "/admin/my-leaves",
+                action: "/dashboard/admin/my-leaves",
             },
             {
                 title: "All Leaves",
                 value: data?.leaveRequests?.length ?? 0,
                 type: "leaves",
-                action: "/admin/team-leaves",
+                action: "/dashboard/admin/team-leaves",
             },
             {
                 title: "Add Tasks",
                 value: "",
                 type: "addtasks",
-                action: "/admin/add-tasks",
+                action: "/dashboard/admin/add-tasks",
             },
         ];
     }
@@ -85,14 +85,14 @@ export const transformDashboardData = ({data, user}:StateListType): transformDas
                 title: "Leaves",
                 value: data?.EmpLeaves?.length ?? 0,
                 type: "leaves",
-                action: "/employee/leaves",
+                action: "/dashboard/employee/leaves",
             },
 
             {
                 title: "Request Leave",
                 value: "",
                 type: "requestLeave",
-                action: "/employee/apply-leave",
+                action: "/dashboard/employee/apply-leave",
             },
         ]
     };

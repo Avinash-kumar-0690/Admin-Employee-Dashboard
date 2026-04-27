@@ -28,10 +28,10 @@ const allDashboardData= useQuery<DashboardDataType>({
   useEffect(() => {
 
     if(user?.role === "admin") {
-      navigate("/admin")
+      navigate("/dashboard/admin")
     }
     else if(user?.role === "employee"){
-      navigate("/employee");
+      navigate("/dashboard/employee");
     }
     else return;
   }, [user, localStorageData])

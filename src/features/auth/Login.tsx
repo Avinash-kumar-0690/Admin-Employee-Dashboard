@@ -47,7 +47,7 @@ const Login = () => {
     }
     if(user) {
       login(user);
-      navigate("/");
+      navigate("/dashboard");
     }
   };
 

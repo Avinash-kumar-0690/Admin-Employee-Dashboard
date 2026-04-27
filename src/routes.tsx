@@ -32,7 +32,7 @@ export const routes = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "",
+        path: "dashboard",
         element: <Dashboard />,
         children:[
             {
