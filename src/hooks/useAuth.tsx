@@ -1,30 +1,41 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getLocalStorage, removeLocalStorage } from "../utilities/useLocalStorage";
 import type { UserType } from "../features/dashboard/dashboard.types";
 
 
 interface AuthContextType {
     user: UserType | null;
-    logOut : () => void;
-    login: (user:UserType) => void;
+    logOut: () => void;
+    login: (user: UserType) => void;
+    loading:boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
     user: null,
-    logOut: () => {},
-    login:() => {},
+    logOut: () => { },
+    login: () => { },
+    loading:false,
 })
 
-const AuthProvider = ({children}:{children:React.ReactNode}) => {
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserType | null>(null);
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         const data = getLocalStorage("authUser");
-        if(data){
-            setUser(JSON.parse(data))
+
+        if (data) {
+            try {
+                setUser(typeof data === "string" ? JSON.parse(data) : data);
+            } catch (err) {
+                console.error("Invalid authUser in localStorage");
+                setUser(null);
+            }
         }
-    },[]);
+
+        setLoading(false);
+    }, []);
 
 
 
@@ -34,12 +45,12 @@ const AuthProvider = ({children}:{children:React.ReactNode}) => {
     };
 
     const login = (user: UserType) => {
-  localStorage.setItem("authUser", JSON.stringify(user));
-  setUser(user);
-};
+        localStorage.setItem("authUser", JSON.stringify(user));
+        setUser(user);
+    };
 
     return (
-        <AuthContext.Provider value={{user, logOut, login}}>
+        <AuthContext.Provider value={{ user, logOut, login, loading }}>
             {children}
         </AuthContext.Provider>
     )
