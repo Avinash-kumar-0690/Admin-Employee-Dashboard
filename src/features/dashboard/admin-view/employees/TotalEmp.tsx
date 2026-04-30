@@ -2,9 +2,11 @@ import { useOutletContext } from "react-router-dom";
 import type { AdminViewProps } from "../AdminView";
 
 const TotalEmp = () => {
+  // get all api data from parent 
   const { allDashboardData, user } =
     useOutletContext<AdminViewProps>();
 
+    // filter employees 
   const employees =
     allDashboardData?.users?.filter(
       (e) =>
@@ -36,7 +38,7 @@ const TotalEmp = () => {
         </div>
       )}
 
-      {/* 🔹 Grid (better than boring list) */}
+     {/* Rending Employees  */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {employees.map((emp) => (
           <div

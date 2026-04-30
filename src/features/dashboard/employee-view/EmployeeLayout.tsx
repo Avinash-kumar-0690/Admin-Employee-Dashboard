@@ -7,6 +7,7 @@ export interface MainLayoutContext {
 }
 
 const EmployeeLayout = () => {
+  // get all api data from MainLayout component using outlet context 
   const context = useOutletContext<MainLayoutContext>();
 
   return (

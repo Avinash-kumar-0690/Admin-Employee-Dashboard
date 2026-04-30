@@ -5,7 +5,6 @@ import Input from "../../../../components/ui/Input";
 import { createTask } from "./AddTask.api";
 import type { TaskType } from "../../dashboard.types";
 
-//  API CAL
 
 
 function AddTaskUI() {
@@ -29,7 +28,7 @@ const queryClient = useQueryClient()
     }
   })
  
-  // ✅ Submit handler
+  //  Submit handler
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -48,7 +47,7 @@ const queryClient = useQueryClient()
       createdAt: new Date().toISOString().split("T")[0],
     };
 
-    // 🔴 Basic validation
+    //  Basic validation
     if (!taskData.title) {
       return alert("Title is required");
     }

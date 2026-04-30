@@ -6,15 +6,13 @@ import type { AdminViewProps } from "../AdminView";
  function AdminTasksPage() {
     const {allDashboardData, user} = useOutletContext<AdminViewProps>()
 
-    console.log(allDashboardData, user)
+// filter tasks (team based) 
     const tasks = allDashboardData?.tasks?.filter((t) => {
         const data = Number(t.teamId) === Number(user?.teamId)
 return data
     })
 
 
-
-console.log(tasks)
   return (
     <div className="min-h-screen bg-[#0f172a] text-white p-6">
       <h1 className="text-2xl font-bold mb-6">All Tasks</h1>
@@ -22,6 +20,7 @@ console.log(tasks)
       <div className="overflow-x-auto">
         <table className="w-full text-sm border border-gray-800">
           <thead className="bg-[#020617] text-gray-400 uppercase text-xs">
+            {/* tasks titles  */}
             <tr>
               <th className="text-left p-3">Title</th>
               <th className="text-left p-3">Description</th>
@@ -35,10 +34,11 @@ console.log(tasks)
               <th className="text-left p-3">Created At</th>
             </tr>
           </thead>
-
+{/* grid  */}
+{/* tasks body description  */}
           <tbody>
             {tasks?.map((task) => (
-              <tr key={task.id} className="border-t border-gray-800">
+              <tr key={task.id} className="border-t border-gray-900">
                 <td className="p-3">{task.title}</td>
                 <td className="p-3">{task.description}</td>
                 <td className="p-3">{task.priority}</td>

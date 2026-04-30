@@ -7,15 +7,14 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
 
   // ✅ Fetch all data which will come from the api
 const allDashboardData= useQuery<DashboardDataType>({
     queryKey: ["dashboard"],
     queryFn: getDashboardData,
-    enabled: !!user, // it will fetch the data when user data will available 
   });
  useEffect(() => {
   if (loading) return;
@@ -25,6 +24,8 @@ const allDashboardData= useQuery<DashboardDataType>({
     navigate("/auth/login", { replace: true });
     return;
   }
+  console.log(allDashboardData)
+  console.log("its working......")
 
   if (user.role === "admin") {
     navigate("/dashboard/admin", { replace: true });

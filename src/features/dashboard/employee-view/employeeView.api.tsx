@@ -15,6 +15,7 @@ export const empDashboardData = ({ allDashboardData, user }: EmployeeViewProps) 
     
 const idSet = new Set(totalEmployees?.map((e) => Number(e.id)));
 
+// get activities belong to team 
  const filterActivities = allDashboardData?.activities?.filter(record => {
   return idSet.has(Number(record.userId));
 }) || []; 

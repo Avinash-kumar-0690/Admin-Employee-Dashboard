@@ -3,6 +3,7 @@ import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import type { transformDashboardDataType } from "./dashboard.types";
 
+// icons for state cards 
 export const iconMap = {
   employees: FaUsers,
   tasks: FaClipboardList,
@@ -19,11 +20,8 @@ interface stateCardType {
 
 
 const StateCard = ( {state }:stateCardType) => {
- 
   if (!state) return null;
-
   const navigate = useNavigate();
-
   const { title, value, type, action } = state;
   const Icon = iconMap[type];
 
@@ -33,6 +31,8 @@ const StateCard = ( {state }:stateCardType) => {
 
 const isAction = actionTypes.includes(type);
 
+
+// state action handler
   const handleStatAction = (path: string) => {
     navigate(path);
   };
@@ -41,9 +41,11 @@ const isAction = actionTypes.includes(type);
   if (isAction) {
     return (
       <div className="bg-[#253552] rounded-2xl shadow-lg p-4 flex items-center justify-between  text-white hover:scale-[1.05] transition-all">
+        {/* icon  */}
         <Icon className="text-3xl mb-2" />
+        {/* title  */}
         <p className="font-semibold">{title}</p>
-
+        {/* action button  */}
         <Button
         name={type}
           label="Request"
@@ -54,21 +56,25 @@ const isAction = actionTypes.includes(type);
     );
   }
 
-  // 🔥 NORMAL STAT CARD
+  //  NORMAL STAT CARD
   return (
     <div className="bg-[#1e293b] rounded-2xl shadow-lg p-4 flex items-center justify-between hover:scale-[1.03] transition-all">
       
       <div className="flex items-center gap-4">
         <div className="p-2 rounded-xl bg-[#334155] text-blue-400 text-xl">
+          {/* icon */}
           <Icon />
         </div>
 
         <div>
+          {/* title 
+           */}
           <p className="text-sm text-gray-400">{title}</p>
+          {/* value  */}
           <h2 className="text-lg font-semibold text-gray-200">{value}</h2>
         </div>
       </div>
-
+      {/* action button  */}
       <Button
       name={type}
         label="View"

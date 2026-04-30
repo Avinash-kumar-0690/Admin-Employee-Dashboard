@@ -8,6 +8,7 @@ export interface MainLayoutContext {
 }
 
 const AdminLayout = () => {
+  // get all api data using outlet context 
   const context = useOutletContext<MainLayoutContext>();
 
   return (

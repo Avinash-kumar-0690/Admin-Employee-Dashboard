@@ -4,7 +4,7 @@ import type { MainLayoutContext } from "../EmployeeLayout";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../services/BaseApi";
 
-// 1. Define a complete interface for the data you are actually sending
+// 1. Define a complete interface for the sending data
 interface LeavePayload {
   id: number;
   userId?: string | number;
@@ -18,6 +18,7 @@ interface LeavePayload {
 }
 
 export default function ApplyLeave() {
+  // get user data from outlet context through parent 
   const { user } = useOutletContext<MainLayoutContext>();
 
   const [form, setForm] = useState({
@@ -27,12 +28,13 @@ export default function ApplyLeave() {
     reason: "",
   });
 
-  // 2. Fix: The parameter here must match what you pass to .mutate()
+  // post mutation function here for apply leave
   const handleApplyLeave = async (newLeave: LeavePayload) => {
     const response = await api.post("/leaves", newLeave);
     return response.data;
   };
 
+  // post mutation function for apply leave 
   const applyLeave = useMutation({
     mutationFn: handleApplyLeave,
     onSuccess: () => {
@@ -41,11 +43,12 @@ export default function ApplyLeave() {
     },
     onError: (error) => {
       alert("Failed to submit leave request.");
-      console.error(error);
+      return error
+
     }
   });
 
-  // 3. Fix: Added HTMLTextAreaElement to the union so the textarea doesn't error
+  // form input handler 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -53,7 +56,7 @@ export default function ApplyLeave() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 4. Fix: Changed type to React.FormEvent<HTMLFormElement>
+  // form submit handler
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -67,7 +70,7 @@ export default function ApplyLeave() {
       return;
     }
 
-    // 5. Logical consistency: Ensure this object matches LeavePayload
+    // new Leave object 
     const newLeave: LeavePayload = {
       id: Date.now(),
       userId: user?.id,
@@ -94,6 +97,7 @@ export default function ApplyLeave() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="text-sm text-gray-400">Leave Type</label>
+            {/* leave type  */}
             <select
               name="type"
               value={form.type}
@@ -107,6 +111,7 @@ export default function ApplyLeave() {
             </select>
           </div>
 
+          {/* start date  */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm text-gray-400">From Date</label>
@@ -118,7 +123,7 @@ export default function ApplyLeave() {
                 className="mt-1 w-full bg-[#0f172a] border border-gray-700 text-white rounded-lg px-3 py-2 outline-none focus:border-blue-500"
               />
             </div>
-
+            {/* end date  */}
             <div>
               <label className="text-sm text-gray-400">To Date</label>
               <input
@@ -131,6 +136,7 @@ export default function ApplyLeave() {
             </div>
           </div>
 
+          {/* Leave Reason  */}
           <div>
             <label className="text-sm text-gray-400">Reason</label>
             <textarea
@@ -142,6 +148,8 @@ export default function ApplyLeave() {
               placeholder="Enter your reason..."
             />
           </div>
+
+          {/* submit button  */}
 
           <button
             type="submit"

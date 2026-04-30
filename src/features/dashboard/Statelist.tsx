@@ -11,7 +11,8 @@ export interface StateListType {
 }
 
 const Statelist = ({ data, user }: StateListType) => {
-  console.log(data, user)
+
+  // get transformed state card data based on user 
   const cards = transformDashboardData({ data, user });
   return (
 

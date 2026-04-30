@@ -22,7 +22,7 @@ const EmployeeView = () => {
 
   const tasks = employeeDashboardData?.EmpTasks
  
-
+// get events data 
   const events = useQuery({
     queryKey: ["events"],
     queryFn: () => getEventsData(),
@@ -32,6 +32,7 @@ const EmployeeView = () => {
   return (
     <>
       <section className="bg-[#0f172a] min-h-screen  text-gray-200">
+        {/* state List for employee  */}
         <Statelist data={employeeDashboardData} user={user} />
 
         <section className="grid grid-cols-[65%_30%] gap-6 px-4 py-4 ">
@@ -90,7 +91,7 @@ const EmployeeView = () => {
             {/* LEAVE CHART SECTION */}
             <div className="bg-[#1e293b] rounded-xl p-5 shadow-sm border border-gray-800">
               <h2 className="text-md font-bold text-white mb-4 uppercase tracking-wider">
-                Leave Analytics
+                Tasks Analytics
               </h2>
 
 
@@ -99,6 +100,7 @@ const EmployeeView = () => {
 
               <div className="h-48 w-full bg-[#0f172a] rounded-lg p-3 border border-gray-800">
                 {tasks?
+                // Tasks chart 
                <TaskChart tasks={tasks} />: null
               }
               </div>

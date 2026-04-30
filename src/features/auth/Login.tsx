@@ -17,6 +17,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  // get all users data 
+
   const { data: users } = useQuery<UserType[]>({
     queryKey: ["users"],
     queryFn: getUsers,
@@ -45,7 +47,7 @@ const Login = () => {
       alert("Invalid credentials");
       return;
     }
-    if(user) {
+    if (user) {
       login(user);
       navigate("/dashboard");
     }
@@ -58,6 +60,7 @@ const Login = () => {
         onSubmit={handleLogIn}
         className="flex flex-col items-center p-20 gap-5 border-emerald-600 border-2 rounded-2xl"
       >
+        {/* Username or Email  */}
         <Input
           type="text"
           onChange={(e) => setUsernameOrEmail(e.target.value)}
@@ -66,6 +69,7 @@ const Login = () => {
           isFocused={true}
         />
 
+        {/* Password  */}
         <Input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -73,6 +77,7 @@ const Login = () => {
           name="password"
         />
 
+{/* LogIn Button  */}
         <Button
           name="loginbtn"
           label="Log In"

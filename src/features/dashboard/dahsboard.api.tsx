@@ -3,32 +3,37 @@ import { api } from "../../services/BaseApi";
 import type { activitiesType,  DashboardDataType, eventType, LeaveType, TaskType, transformDashboardDataType, UserType } from "./dashboard.types";
 import type { StateListType } from "./Statelist";
 
+// get all user Data 
 export const getUsersData = async (): Promise<UserType[]> => {
     const res = await api.get("/users");
     return res?.data
 }
 
+// get all Tasks Data 
 export const getTasksData = async (): Promise<TaskType[]> => {
     const res = await api.get("/tasks");
     return res.data
 }
 
+// get All Leaves Data 
 export const getLeavesData = async (): Promise<LeaveType[]> => {
     const res = await api.get("/leaves");
     return res.data
 }
 
-
+// get ALl Activities Data 
 export const getActivitiesData = async (): Promise<activitiesType[]> => {
     const res = await api.get("/activities");
     return res.data
 }
 
+// get All events data 
 export const getEventsData = async (): Promise<eventType[]> => {
     const res = await api.get("/events");
     return res.data
 }
 
+// get data for dashboard at once
 export const getDashboardData = async (): Promise<DashboardDataType> => {
     const users = await getUsersData();
     const tasks = await getTasksData();
@@ -45,9 +50,10 @@ export const getDashboardData = async (): Promise<DashboardDataType> => {
 }
 
 
-
+// Transform data for   State Card
 export const transformDashboardData = ({data, user}:StateListType): transformDashboardDataType[] | undefined => {
-    console.log(data, user)
+   
+    // transformed state data for admin 
     if (user?.role === "admin") {
         return [
             {
@@ -78,6 +84,8 @@ export const transformDashboardData = ({data, user}:StateListType): transformDas
             },
         ];
     }
+
+    // transformed state data for employee 
 
     if (user?.role == "employee") {
         return [

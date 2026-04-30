@@ -5,14 +5,18 @@ import type {
   UserType,
 } from "../dashboard.types";
 
+// admin State type 
+
 export interface adminStateType {
   totalEmployees: UserType[] | undefined;
   onLeaveEmployees?: UserType[];
   pendingTasks: TaskType[] | undefined;
   leaveRequests: LeaveType[] | undefined;
   activeTasks?: TaskType[];
-  recentActivity?: any[]; // you can type this later properly
+  recentActivity?: any[]; 
 }
+
+// function return state card data for admin 
 export const adminStat = ({ allDashboardData, user }: AdminViewProps) => {
   const teamId = user?.teamId;
 

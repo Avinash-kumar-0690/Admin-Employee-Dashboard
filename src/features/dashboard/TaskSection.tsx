@@ -85,16 +85,15 @@ const activeTasks = useMemo(() => {
                             {activeTasks?.length ? (
                                 activeTasks.map((t: TaskType) => (
                                     <tr
-
                                         key={t.id}
-                                        className="border-b border-gray-800 hover:bg-[#334155] transition"
+                                        className="border-b border border-gray-900  hover:bg-[#334155] transition"
                                     >
                                         <td className="py-2 font-medium">
                                             {t.title}
 
                                         </td>
 
-                                        {/* ✅ FIXED DESCRIPTION */}
+                                        {/*  DESCRIPTION */}
                                         <td
                                             className="text-gray-400 max-w-62.5 line-clamp-2"
                                             title={t.description}

@@ -6,22 +6,22 @@ import { FaInfo } from "react-icons/fa";
 
  function EmpTasksPage() {
     const {allDashboardData, user} = useOutletContext<AdminViewProps>()
-console.log("ITsi workingdfdalfsdjf")
-    console.log(allDashboardData, user)
+
+    // filter tasks based on employee 
     const tasks = allDashboardData?.tasks?.filter((t) => {
         const data = Number(t.teamId) === Number(user?.teamId) && Number(t.assignedTo) === Number(user?.id)
 return data
     })
 
 
-
-console.log(tasks)
   return (
+    // tasks 
     <div className="min-h-screen bg-[#0f172a] text-white p-6">
       <h1 className="text-2xl font-bold mb-6">All Tasks</h1>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm border border-gray-800">
+          {/* tasks titles  */}
           <thead className="bg-[#020617] text-gray-400 uppercase text-xs">
             <tr>
               <th className="text-left p-3">Info</th>
@@ -37,6 +37,7 @@ console.log(tasks)
               <th className="text-left p-3">Created At</th>
             </tr>
           </thead>
+          {/* tasks description  */}
 
           <tbody>
             {tasks?.map((task) => (

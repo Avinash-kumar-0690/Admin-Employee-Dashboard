@@ -2,19 +2,19 @@ import { useMemo } from "react";
 import { useOutletContext } from "react-router-dom";
 import type { MainLayoutContext } from "../EmployeeLayout";
 
-// ✅ Your cleaned dataset (shortened sample, you can paste full)
 function EmployeeLeavePage() {
     const {allDashboardData, user} = useOutletContext<MainLayoutContext>()
 
     const leavesData = allDashboardData?.leaves
 
-  // ✅ filter + sort (latest first)
+  // Employee Leaves 
   const userLeaves = useMemo(() => {
     const leave = leavesData?.filter((leave) => Number(leave.userId) === Number(user?.id))
       .sort((a, b) => +new Date(b.fromDate) - +new Date(a.fromDate));
       return leave
   }, []);
 
+  // leave status color 
   const getStatusStyle = (status:string | undefined) => {
     if (status === "approved") return { color: "green" };
     if (status === "rejected") return { color: "red" };
@@ -25,6 +25,8 @@ function EmployeeLeavePage() {
     <div style={{ padding: "20px", maxWidth: "700px", margin: "auto" }}>
       <h2 style={{ marginBottom: "20px" }}>My Leaves</h2>
 
+
+{/* leaves  */}
       {userLeaves?.length === 0 ? (
         <p>No leaves found</p>
       ) : (
@@ -39,18 +41,21 @@ function EmployeeLeavePage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {/* leave type  */}
               <strong style={{ textTransform: "capitalize" }}>
                 {leave.type}
               </strong>
+              {/* leave status  */}
               <span style={getStatusStyle(leave.status)}>
                 {leave.status}
               </span>
             </div>
-
+            {/* leave start and end date  */}
             <p style={{ margin: "5px 0" }}>
               {leave.fromDate} → {leave.toDate}
             </p>
 
+{/* leave Reason  */}
             <p style={{ fontSize: "14px", color: "#555" }}>
               {leave.reason}
             </p>

@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 import Login from "./features/auth/Login";
@@ -31,6 +31,10 @@ export const routes = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
+      {
+        index:true,
+        element:<Navigate to="/dashboard" replace ></Navigate>
+      },
       {
         path: "dashboard",
         element: <Dashboard />,
