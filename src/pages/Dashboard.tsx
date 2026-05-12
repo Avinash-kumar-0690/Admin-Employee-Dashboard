@@ -25,7 +25,7 @@ const allDashboardData= useQuery<DashboardDataType>({
     return;
   }
   console.log(allDashboardData)
-  console.log("its working......")
+
 
   if (user.role === "admin") {
     navigate("/dashboard/admin", { replace: true });

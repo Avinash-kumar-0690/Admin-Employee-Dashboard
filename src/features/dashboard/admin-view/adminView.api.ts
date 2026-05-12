@@ -24,12 +24,12 @@ export const adminStat = ({ allDashboardData, user }: AdminViewProps) => {
     (u) => u.role === "employee" && u.teamId === teamId,
   );
 
-  const totalAdminTasks = allDashboardData?.tasks?.filter((t) => t.teamId === teamId);
+  const totalAdminTasks = allDashboardData?.tasks?.filter((t) => Number(t.teamId) === Number(user?.id));
 
-  
   const leaveRequests = allDashboardData?.leaves?.filter(
-    (l) =>  Number(l.teamId) === Number(teamId)
+    (l) =>  Number(l.teamId) === Number(user?.id)
   );
+  console.log(leaveRequests )
 
 
 

@@ -1,5 +1,6 @@
-import { Outlet, useOutletContext } from "react-router-dom";
+import { Outlet, useOutletContext,  } from "react-router-dom";
 import type { DashboardDataType, UserType } from "../dashboard.types";
+import useDocumentTitle from "../../../hooks/useDocumentTitle";
 
 export interface MainLayoutContext {
   allDashboardData?: DashboardDataType;
@@ -8,6 +9,9 @@ export interface MainLayoutContext {
 }
 
 const AdminLayout = () => {
+// change the document title
+useDocumentTitle("Admin")
+
   // get all api data using outlet context 
   const context = useOutletContext<MainLayoutContext>();
 

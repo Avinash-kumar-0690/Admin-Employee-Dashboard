@@ -1,173 +1,92 @@
+import { useMemo } from "react";
+import { useOutletContext } from "react-router-dom";
+import type { MainLayoutContext } from "../AdminLayout";
 
-import React, { useState, memo,  } from "react";
-
-/* ---------------- Fake Users ---------------- */
-const users: Record<string, string> = {
-  "1": "Admin",
-  "5": "Avi",
-  "10": "Rahul"
-};
-
-/* ---------------- Helpers ---------------- */
-function formatTime(date: string) {
-  const d = new Date(date);
-  return d.toLocaleDateString() + " • " + d.toLocaleTimeString();
+interface LeavesProps {
+  viewType: "my" | "team";
 }
 
-/* ---------------- Main Component ---------------- */
-export default function TaskUpdatesDemo({viewType}:{viewType:string}): React.JSX.Element {
-  console.log(viewType)
-  const [task, setTask] = useState({
-    id: "1005",
-    title: "Implement Task Filter",
-    description: "Allow filtering tasks by status and team",
-    status: "in-progress",
+function Leaves({ viewType }: LeavesProps) {
+  const { allDashboardData, user } = useOutletContext<MainLayoutContext>();
+  const leavesData = allDashboardData?.leaves || [];
+console.log(viewType)
+  const filteredLeaves = useMemo(() => {
+    let list = [...leavesData];
 
-    updates: [
-      {
-        id: "u101",
-        userId: "5",
-        message: "Started working on filter logic",
-        createdAt: "2026-04-10T09:30:00Z"
-      },
-      {
-        id: "u102",
-        userId: "5",
-        message: "Added status filter dropdown",
-        createdAt: "2026-04-11T14:15:00Z"
-      },
-      {
-        id: "u103",
-        userId: "1",
-        message: "Make sure team filter is also included",
-        createdAt: "2026-04-11T16:45:00Z"
-      }
-    ]
-  });
+  if (viewType === "my") {
+  // Filter for the logged-in user's leaves only
+  list = list.filter((leave) => Number(leave.userId) === Number(user?.id));
+} else if (viewType === "team") { // Fixed: added ===
+  // Show all leaves EXCEPT the logged-in user
+  list = list.filter((leave) => Number(leave.teamId)  === Number(user?.teamId) && Number(leave.userId) !== Number(user?.id));
+}
+    // Sort by date (newest first)
+    return list.sort((a, b) => +new Date(b.fromDate) - +new Date(a.fromDate));
+  }, [leavesData, user?.id, viewType]); // Fixed dependency array
 
-  const [input, setInput] = useState("");
-
-  /* -------- Add Update -------- */
-  const handleAddUpdate = () => {
-    if (!input.trim()) return;
-
-    const newUpdate = {
-      id: crypto.randomUUID(),
-      userId: "5", // current user
-      message: input,
-      createdAt: new Date().toISOString()
-    };
-
-    setTask(prev => ({
-      ...prev,
-      updates: [...prev.updates, newUpdate]
-    }));
-
-    setInput("");
-  };
-
-  /* -------- Edit Update -------- */
-  const handleEdit = (update: any) => {
-    const newMessage = prompt("Edit update:", update.message);
-    if (!newMessage) return;
-
-    setTask(prev => ({
-      ...prev,
-      updates: prev.updates.map(u =>
-        u.id === update.id ? { ...u, message: newMessage } : u
-      )
-    }));
+  // Helper for Tailwind status colors
+  const getStatusClass = (status: string | undefined) => {
+    if (status === "approved") return "text-emerald-400 bg-emerald-400/10 border-emerald-400/20";
+    if (status === "rejected") return "text-rose-400 bg-rose-400/10 border-rose-400/20";
+    return "text-amber-400 bg-amber-400/10 border-amber-400/20";
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <div className="p-6 max-w-4xl mx-auto bg-[#0f172a] min-h-screen text-slate-200">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold text-white capitalize">
+          {viewType === "my" ? "My Leave Applications" : "Team Leave Requests"}
+        </h2>
+        <span className="text-sm text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+          Total: {filteredLeaves.length}
+        </span>
+      </div>
 
-        <TaskHeader task={task} />
+      <div className="space-y-4">
+        {filteredLeaves.length === 0 ? (
+          <div className="text-center py-20 border-2 border-dashed border-slate-800 rounded-2xl">
+            <p className="text-slate-500">No leave records found for this view.</p>
+          </div>
+        ) : (
+          filteredLeaves.map((leave) => (
+            <div
+              key={leave.id}
+              className="group bg-slate-800/40 border border-slate-700/50 p-5 rounded-2xl hover:border-emerald-600/50 transition-all duration-300 shadow-lg"
+            >
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-100 capitalize">
+                    {leave.type} Leave
+                  </h3>
+                  <p className="text-sm text-slate-400 mt-1 flex items-center gap-2">
+                    <span className="text-emerald-500">📅</span>
+                    {leave.fromDate} <span className="text-slate-600">→</span> {leave.toDate}
+                  </p>
+                </div>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusClass(leave.status)} capitalize`}>
+                  {leave.status}
+                </span>
+              </div>
 
-        <AddUpdate input={input} setInput={setInput} onAdd={handleAddUpdate} />
-
-        <UpdateList updates={task.updates} onEdit={handleEdit} />
-
+              <div className="mt-4 pt-4 border-t border-slate-700/30">
+                <p className="text-sm text-slate-400 italic">
+                  <span className="text-slate-500 not-italic font-medium mr-2">Reason:</span>
+                  "{leave.reason}"
+                </p>
+              </div>
+              
+              {leave.status == "pending" && (
+                <div className="mt-4 flex gap-3 justify-end">
+                   <button className="text-xs px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Approve</button>
+                   <button className="text-xs px-4 py-2 bg-slate-700 hover:bg-rose-600 text-white rounded-lg transition-colors">Reject</button>
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
 }
 
-/* ---------------- Components ---------------- */
-
-const TaskHeader = memo(({ task }: any) => (
-  <div className="bg-[#111827] p-5 rounded-xl border border-gray-800">
-    <h1 className="text-2xl font-bold">{task.title}</h1>
-    <p className="text-gray-400 mt-1">{task.description}</p>
-
-    <span className="inline-block mt-3 text-xs px-2 py-1 bg-yellow-600 rounded">
-      {task.status}
-    </span>
-  </div>
-));
-
-const AddUpdate = memo(({ input, setInput, onAdd }: any) => (
-  <div className="bg-[#111827] p-4 rounded-xl border border-gray-800 flex gap-2">
-    <input
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-      placeholder="Write an update..."
-      className="flex-1 p-2 bg-[#1f2937] border border-gray-700 rounded outline-none"
-    />
-    <button
-      onClick={onAdd}
-      className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500"
-    >
-      Add
-    </button>
-  </div>
-));
-
-const UpdateList = memo(({ updates, onEdit }: any) => (
-  <div className="bg-[#111827] p-5 rounded-xl border border-gray-800">
-    <h2 className="text-lg font-semibold mb-4">Activity</h2>
-
-    <div className="space-y-4">
-      {updates.map((u: any) => (
-        <UpdateItem key={u.id} update={u} onEdit={onEdit} />
-      ))}
-    </div>
-  </div>
-));
-
-const UpdateItem = memo(({ update, onEdit }: any) => (
-  <div className="flex gap-3 group">
-
-    {/* Timeline dot */}
-    <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
-
-    <div className="flex-1 bg-[#1f2937] p-3 rounded border border-gray-700">
-
-      {/* Header */}
-      <div className="flex justify-between items-center mb-1">
-        <span className="text-sm font-semibold text-blue-400">
-          {users[update.userId] || "Unknown"}
-        </span>
-
-        <span className="text-xs text-gray-400">
-          {formatTime(update.createdAt)}
-        </span>
-      </div>
-
-      {/* Message */}
-      <p className="text-sm">{update.message}</p>
-
-      {/* Actions */}
-      <div className="mt-2 opacity-0 group-hover:opacity-100 transition">
-        <button
-          onClick={() => onEdit(update)}
-          className="text-xs text-yellow-400 hover:underline"
-        >
-          Edit
-        </button>
-      </div>
-
-    </div>
-  </div>
-));
+export default Leaves;

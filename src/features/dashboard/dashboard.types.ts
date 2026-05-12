@@ -26,6 +26,7 @@ export interface TaskType {
     completedAt?:string | null
     teamId:number;
     tags?:string;
+    userId:number | string;
 }
 
 export interface LeaveType {

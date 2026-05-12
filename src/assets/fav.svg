@@ -1,0 +1,18 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="128" height="128" rx="24" fill="#0F172A"/>
+
+  <!-- Dashboard Grid -->
+  <rect x="24" y="28" width="32" height="32" rx="6" fill="#38BDF8"/>
+  <rect x="72" y="28" width="32" height="18" rx="6" fill="#6366F1"/>
+  <rect x="72" y="54" width="32" height="32" rx="6" fill="#8B5CF6"/>
+  <rect x="24" y="68" width="32" height="18" rx="6" fill="#06B6D4"/>
+
+  <!-- Admin/User Dot -->
+  <circle cx="92" cy="96" r="12" fill="#F8FAFC"/>
+  <circle cx="92" cy="92" r="4" fill="#0F172A"/>
+  <path d="M84 104C85.5 99.5 89 98 92 98C95 98 98.5 99.5 100 104" 
+        stroke="#0F172A" 
+        stroke-width="3" 
+        stroke-linecap="round"/>
+</svg>

@@ -18,7 +18,7 @@ interface TaskSetionType {
 }
 
 const TaskSection = ({ data, user }: TaskSetionType) => {
-    console.log(data)
+
     const [activeStatus, setActiveStatus] = useState<string>("pending");
 
     const statuses = ["pending", "in-progress", "completed"];

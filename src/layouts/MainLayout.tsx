@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import { useAuth } from '../hooks/useAuth';
 import { useEffect } from 'react';
+import { Toaster } from 'sonner';
 
 
 const MainLayout = () => {
@@ -18,10 +19,10 @@ const MainLayout = () => {
   }
  }, [user])
  console.log("Main Layout is working....")
- console.log(user)
 
   return (
    <>
+   <Toaster />
    <Header />
    <main>
    <Outlet ></Outlet>

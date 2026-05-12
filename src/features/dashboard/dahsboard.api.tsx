@@ -72,7 +72,8 @@ export const transformDashboardData = ({data, user}:StateListType): transformDas
             },
             {
                 title: "All Leaves",
-                value: data?.leaveRequests?.length ?? 0,
+                value: data?.leaveRequests?.filter((l:any) => Number(l.teamId) === Number(user.teamId) && Number(l.userId) !== Number(user?.id)).length ??
+                    0,
                 type: "leaves",
                 action: "/dashboard/admin/team-leaves",
             },
